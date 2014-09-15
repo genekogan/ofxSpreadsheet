@@ -29,12 +29,14 @@ public:
     void addEntry(vector<float> entry);
     void selectRow(int row);
     void deleteSelectedRows();
+    void clear();
     
     void draw(int x, int y);
     
+    int getNumberOfEntries() { return entries.size(); }
+    
 private:
 
-    void update(ofEventArgs &data);
     void keyPressed(ofKeyEventArgs &evt);
     void keyReleased(ofKeyEventArgs &evt);
     void mousePressed(ofMouseEventArgs &evt);
@@ -54,7 +56,7 @@ private:
 
     int width, height;
     int sheetWidth, sheetHeight;
-    int cellWidth, cellHeight;
+    float cellWidth, cellHeight;
     
     ofFbo fboSheet, fboHeader, fboScrollBar;
     ofxSpreadsheetScrollable sheet;

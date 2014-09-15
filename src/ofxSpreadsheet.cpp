@@ -30,7 +30,7 @@ void ofxSpreadsheet::setup(int width, int height) {
     this->height = height;
     
     headerHeight = 20;
-    scrollbarWidth = 20;
+    scrollbarWidth = 12;
     cellHeight = 20;
 
     dragging = false;
@@ -48,7 +48,6 @@ void ofxSpreadsheet::setup(int width, int height) {
     drawSpreadsheet();
     drawScrollBar();
     
-    ofAddListener(ofEvents().update, this, &ofxSpreadsheet::update);
     ofAddListener(ofEvents().keyPressed, this, &ofxSpreadsheet::keyPressed);
     ofAddListener(ofEvents().keyReleased, this, &ofxSpreadsheet::keyReleased);
     ofAddListener(ofEvents().mousePressed, this, &ofxSpreadsheet::mousePressed);
@@ -59,10 +58,11 @@ void ofxSpreadsheet::setup(int width, int height) {
 //-------
 void ofxSpreadsheet::setHeaders(vector<string> headers) {
     this->headers = headers;
-    cellWidth = fboSheet.getWidth() / headers.size();
+    cellWidth = (float) fboSheet.getWidth() / headers.size();
     
+    entries.clear();
     fboHeader.begin();
-    ofBackground(0);
+    ofClear(0, 0);
     for (int i=0; i<headers.size(); i++) {
         drawCell(0, i, headers[i], HEADER);
     }
@@ -82,12 +82,8 @@ void ofxSpreadsheet::addEntry(vector<float> entry) {
         selection.push_back(0);
         highlightRows(selection, true);
     }
-}
-
-//-------
-void ofxSpreadsheet::update(ofEventArgs &data) {
-    sheet.update();
     drawScrollBar();
+    sheet.update();
 }
 
 //-------
@@ -103,7 +99,6 @@ void ofxSpreadsheet::highlightRows(vector<int> rows, bool highlight) {
     }
     fboSheet.end();
 }
-
 
 //-------
 void ofxSpreadsheet::selectRow(int row) {
@@ -134,6 +129,7 @@ void ofxSpreadsheet::selectRow(int row) {
         selection.push_back(row);
     }
     highlightRows(selection, true);
+    sheet.update();
 }
 
 //-------
@@ -148,7 +144,6 @@ void ofxSpreadsheet::selectAllRows() {
 //-------
 void ofxSpreadsheet::deleteSelectedRows() {
     entries.erase(entries.begin() + selection[0], entries.begin() + selection[selection.size()-1] + 1);
-
     drawSpreadsheet();
     cellsHeight = entries.size() * cellHeight;
     scrollHeight = (height - fboHeader.getHeight()) * fboScrollBar.getHeight() / cellsHeight;
@@ -164,6 +159,14 @@ void ofxSpreadsheet::deleteSelectedRows() {
     else {
         selection.clear();
     }
+    drawScrollBar();
+    sheet.update();
+}
+
+//-------
+void ofxSpreadsheet::clear() {
+    selectAllRows();
+    deleteSelectedRows();
 }
 
 //-------
@@ -199,7 +202,6 @@ void ofxSpreadsheet::keyReleased(ofKeyEventArgs &evt) {
     else if (evt.key == OF_KEY_COMMAND) {
         cmd = false;
     }
-
 }
 
 //-------
@@ -226,10 +228,12 @@ void ofxSpreadsheet::mousePressed(ofMouseEventArgs &evt){
 
 //-------
 void ofxSpreadsheet::mouseDragged(ofMouseEventArgs &evt){
-    if (dragging) {
+    if (dragging && scrollHeight < cellsHeight) {
         scrollTop = ofClamp(scrollTop + (evt.y - mouseHold.y), 0, height - scrollHeight - fboHeader.getHeight());
         sheet.setPosition(-scrollTop * cellsHeight / fboScrollBar.getHeight());
         mouseHold.set(mouseHold.x, evt.y);
+        drawScrollBar();
+        sheet.update();
     }
 }
 
@@ -313,7 +317,6 @@ void ofxSpreadsheet::draw(int x, int y) {
 
 //-------
 ofxSpreadsheet::~ofxSpreadsheet() {
-    ofRemoveListener(ofEvents().update, this, &ofxSpreadsheet::update);
     ofRemoveListener(ofEvents().keyPressed, this, &ofxSpreadsheet::keyPressed);
     ofRemoveListener(ofEvents().mousePressed, this, &ofxSpreadsheet::mousePressed);
     ofRemoveListener(ofEvents().mouseReleased, this, &ofxSpreadsheet::mouseReleased);
