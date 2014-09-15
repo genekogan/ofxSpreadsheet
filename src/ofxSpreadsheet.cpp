@@ -35,6 +35,7 @@ void ofxSpreadsheet::setup(int width, int height) {
 
     dragging = false;
     selectMultiple = false;
+    cmd = false;
 
     fboHeader.allocate(width, headerHeight);
     fboScrollBar.allocate(scrollbarWidth, height-fboHeader.getHeight());
@@ -136,6 +137,15 @@ void ofxSpreadsheet::selectRow(int row) {
 }
 
 //-------
+void ofxSpreadsheet::selectAllRows() {
+    selection.clear();
+    for (int r=0; r<entries.size(); r++) {
+        selection.push_back(r);
+    }
+    highlightRows(selection, true);
+}
+
+//-------
 void ofxSpreadsheet::deleteSelectedRows() {
     entries.erase(entries.begin() + selection[0], entries.begin() + selection[selection.size()-1] + 1);
 
@@ -145,15 +155,20 @@ void ofxSpreadsheet::deleteSelectedRows() {
     scrollTop = ofClamp(scrollTop, 0, abs(height - scrollHeight - fboHeader.getHeight()));
     sheet.setPosition(-scrollTop * cellsHeight / fboScrollBar.getHeight());
 
-    int r = min((int) selection[0], (int) entries.size()-1);
-    selection.clear();
-    selection.push_back(r);
-    
-    highlightRows(selection, true);
+    if (entries.size() > 0) {
+        int r = min((int) selection[0], (int) entries.size()-1);
+        selection.clear();
+        selection.push_back(r);
+        highlightRows(selection, true);
+    }
+    else {
+        selection.clear();
+    }
 }
 
 //-------
 void ofxSpreadsheet::keyPressed(ofKeyEventArgs &evt) {
+    if (entries.size() == 0)    return;
     if (evt.key == OF_KEY_UP) {
         selectRow(ofClamp(selection[0]-1, 0, entries.size()-1));
     }
@@ -166,6 +181,14 @@ void ofxSpreadsheet::keyPressed(ofKeyEventArgs &evt) {
     else if (evt.key == OF_KEY_SHIFT) {
         selectMultiple = true;
     }
+    else if (evt.key == OF_KEY_COMMAND) {
+        cmd = true;
+    }
+    else if (evt.key == 'a' || evt.key == 'A') {
+        if (cmd) {
+            selectAllRows();
+        }
+    }
 }
 
 //-------
@@ -173,6 +196,10 @@ void ofxSpreadsheet::keyReleased(ofKeyEventArgs &evt) {
     if (evt.key == OF_KEY_SHIFT) {
         selectMultiple = false;
     }
+    else if (evt.key == OF_KEY_COMMAND) {
+        cmd = false;
+    }
+
 }
 
 //-------
@@ -210,7 +237,6 @@ void ofxSpreadsheet::mouseDragged(ofMouseEventArgs &evt){
 void ofxSpreadsheet::mouseReleased(ofMouseEventArgs &evt){
     dragging = false;
 }
-
 
 //-------
 void ofxSpreadsheet::drawSpreadsheet() {

@@ -42,6 +42,8 @@ private:
     void mouseReleased(ofMouseEventArgs &evt);
 
     void highlightRows(vector<int> rows, bool highlight);
+    void selectAllRows();
+    
     void drawCell(int row, int col, string cell, CellType type = CELL);
     void drawSpreadsheet();
     void drawScrollBar();
@@ -63,5 +65,6 @@ private:
     ofPoint mouseHold;
     bool dragging;
     bool selectMultiple;
+    bool cmd;
 };
 
