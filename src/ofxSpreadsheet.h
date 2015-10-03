@@ -3,42 +3,26 @@
 #include "ofMain.h"
 
 
-//-----------
-class ofxSpreadsheetScrollable : public ofFbo {
-public:
-    void load(ofFbo *text, float w, float h);
-    void update();
-    void setPosition(float x, float y) {position.set(x, y);}
-    void setHorizontal(float x) {position.x = x;}
-    void setVertical(float y) {position.y = y;}
-    ofPoint getPosition() {return position;}
-private:
-    ofFbo *fbo;
-    ofPoint position;
-};
-
-
-//-----------
 class ofxSpreadsheet
 {
 public:
-    enum CellType { HEADER, CELL, SELECTED };
+    ofxSpreadsheet();
+    void setup(int x, int y, int numDisplayRows, int numDisplayCols);
     
-    ~ofxSpreadsheet();
-    void setup(int sheetWidth, int sheetHeight);
+    void setPosition(int x, int y);
+
+    void setActive(bool active);
+    bool getActive() {return active;}
+
     void setHeaders(vector<string> headers);
-    void highlightColumn(int column);
-    
     void addEntry(vector<float> entry);
-    void selectRow(int row);
-    void deleteSelectedRows();
-    void clear();
-    
-    void draw(int x, int y);
-    void setInputsActive(bool inputsActive);
+    void clearEntries();
     
     int getNumberOfEntries() { return entries.size(); }
     vector<vector<float> > & getEntries() { return entries; }
+    vector<string> & getHeaders() { return headers; }
+    
+    void draw();
     
     template<typename ListenerClass, typename ListenerMethod>
     void addSpreadsheetChangedListener(ListenerClass *listener, ListenerMethod method) {
@@ -49,50 +33,37 @@ public:
         ofRemoveListener(changeEvent, listener, method);
     }
 
-    
 private:
-    
-    int MIN_CELL_WIDTH = 100;
-    
+    void deleteSelectedRow();
+
+    void setTopRow(int topRow) {this->topRow = topRow;}
+    void setLeftCol(int leftCol) {this->leftCol = leftCol;}
+    void selectRow(int selectedRow) {this->selectedRow = selectedRow;}
+    void scrollUp();
+    void scrollDown();
+    void scrollLeft();
+    void scrollRight();
+
     void keyPressed(ofKeyEventArgs &evt);
     void keyReleased(ofKeyEventArgs &evt);
     void mousePressed(ofMouseEventArgs &evt);
     void mouseDragged(ofMouseEventArgs &evt);
     void mouseReleased(ofMouseEventArgs &evt);
     
-    void highlightRows(vector<int> rows, bool highlight);
-    void selectAllRows();
+    bool active;
+    bool shift;
+    int x, y, width, height;
+    int numDisplayRows;
+    int numDisplayCols;
+    int cellWidth;
+    int cellHeight;
+    int topRow;
+    int leftCol;
+    int selectedRow;
     
-    void drawCell(int row, int col, string cell, CellType type = CELL);
-    void drawSpreadsheet();
-    void drawHeader();
-    void drawScrollHeader();
-    void drawScrollBarV();
-    void drawScrollBarH();
-    void checkBounds();
-    
-    vector<vector<float> > entries;
     vector<string> headers;
-    vector<int> selection;
-    vector<int> highlightedColumns;
+    vector<vector<float> > entries;
     
-    int width, height;
-    int sheetWidth, sheetHeight;
-    float cellWidth, cellHeight;
-    
-    ofFbo fboSheet, fboHeader, fboScrollV, fboScrollH;
-    ofxSpreadsheetScrollable sheet, sheetHeader;
-    ofPoint drawPosition;
-    
-    int headerHeight, scrollbarWidth, scrollbarHeight;
-    float scrollTop, scrollHeight, cellsHeight;
-    float scrollLeft, scrollWidth, cellsWidth;
-    ofPoint mouseHold;
-    bool draggingV, draggingH;
-    bool selectMultiple;
-    bool cmd;
-    bool inputsActive;
-    
-    ofEvent<bool> changeEvent;
+    ofEvent<void> changeEvent;
 };
 

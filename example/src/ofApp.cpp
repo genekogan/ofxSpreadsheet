@@ -3,6 +3,11 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
     
+    // setup spreadsheet (x, y, number of rows to display, number of cols to display)
+    spreadsheet.setup(20, 80, 30, 8);
+
+    
+    // specify column headers
     vector<string> headers;
     headers.push_back("col1");
     headers.push_back("col2");
@@ -22,8 +27,9 @@ void ofApp::setup(){
     headers.push_back("col16");
     headers.push_back("col17");
     
-    spreadsheet.setup(500, 500);
     spreadsheet.setHeaders(headers);
+    
+    // add entries
     
     for (int i=0; i<50; i++) {
         vector<float> entry;
@@ -44,8 +50,13 @@ void ofApp::setup(){
         entry.push_back(ofRandom(35, 90));
         entry.push_back(ofRandom(-100, 100));
         entry.push_back(ofRandom(-30, 20));
+        
         spreadsheet.addEntry(entry);
     }
+    
+    // you can get the entries and headers from the spreadsheet
+    vector<vector<float> > myEntries = spreadsheet.getEntries();
+    vector<string> myHeaders = spreadsheet.getHeaders();
 }
 
 
@@ -56,34 +67,15 @@ void ofApp::update() {
 
 //--------------------------------------------------------------
 void ofApp::draw() {
-    ofBackground(0, 255, 0);
-    spreadsheet.draw(20, 20);
-    ofSetWindowTitle(ofToString(ofGetFrameRate()));
+    ofBackground(0, 100, 0);
+    
+    ofDrawBitmapString("click on spreadsheet to select an entry.\nup/down/left/right to scroll through spreadsheet (hold shift to scroll by entire pages).\nbackspace to delete an entry.", 20, 20);
+    
+    spreadsheet.draw();
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-    if (key==' ') {
-        vector<float> entry;
-        entry.push_back(ofRandom(1));
-        entry.push_back(ofRandom(-50, -30));
-        entry.push_back(ofRandom(100, 180));
-        entry.push_back(ofRandom(20, 50));
-        entry.push_back(ofRandom(35, 90));
-        entry.push_back(ofRandom(-100, 100));
-        entry.push_back(ofRandom(-30, 20));
-        entry.push_back(ofRandom(1));
-        entry.push_back(ofRandom(-50, -30));
-        entry.push_back(ofRandom(100, 180));
-        entry.push_back(ofRandom(20, 50));
-        entry.push_back(ofRandom(35, 90));
-        entry.push_back(ofRandom(-100, 100));
-        entry.push_back(ofRandom(-30, 20));
-        entry.push_back(ofRandom(35, 90));
-        entry.push_back(ofRandom(-100, 100));
-        entry.push_back(ofRandom(-30, 20));
-        spreadsheet.addEntry(entry);
-    }
 }
 
 //--------------------------------------------------------------
