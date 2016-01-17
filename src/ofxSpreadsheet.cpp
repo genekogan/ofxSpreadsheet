@@ -25,13 +25,23 @@ void ofxSpreadsheet::setup(int x, int y, int numDisplayRows, int numDisplayCols)
 void ofxSpreadsheet::sortByCol(int col,bool direction)
 {
     if (direction) {
-        sort(entries.begin(), entries.end(), [&col](const vector<float> &a, const vector<float> &b){
-            return a[col] > b[col];
+        sort(entries.begin(), entries.end(), [&col](const vector<string> &a, const vector<string> &b){
+            if (std::isdigit(ofToChar(a[col])) && std::isdigit(ofToChar(b[col]))) {
+                return ofToInt(a[col]) > ofToInt(b[col]);
+            }
+            else {
+                return a[col] > b[col];
+            }
         });
     }
     else {
-        sort(entries.begin(), entries.end(), [&col](const vector<float> &a, const vector<float> &b){
-            return a[col] < b[col];
+        sort(entries.begin(), entries.end(), [&col](const vector<string> &a, const vector<string> &b){
+            if (std::isdigit(ofToChar(a[col])) && std::isdigit(ofToChar(b[col]))) {
+                return ofToInt(a[col]) < ofToInt(b[col]);
+            }
+            else {
+                return a[col] < b[col];
+            }
         });
     }
 }
@@ -66,7 +76,7 @@ void ofxSpreadsheet::setHeaders(vector<string> headers)
     this->headers = headers;
 }
 //--------------------------------------------------------------
-void ofxSpreadsheet::addEntry(vector<float> entry)
+void ofxSpreadsheet::addEntry(vector<string> entry)
 {
     entries.push_back(entry);
     ofNotifyEvent(changeEvent);
