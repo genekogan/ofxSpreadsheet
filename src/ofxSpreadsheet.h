@@ -18,11 +18,11 @@ public:
     void sortByCol(int col,bool direction);
     
     void setHeaders(vector<string> headers);
-    void addEntry(vector<float> entry);
+    void addEntry(vector<string> entry);
     void clearEntries();
     
     int getNumberOfEntries() { return entries.size(); }
-    vector<vector<float> > & getEntries() { return entries; }
+    vector<vector<string> > & getEntries() { return entries; }
     vector<string> & getHeaders() { return headers; }
     
     void draw();
@@ -67,7 +67,7 @@ private:
     int selectedCol;
     
     vector<string> headers;
-    vector<vector<float> > entries;
+    vector<vector<string> > entries;
     
     ofEvent<void> changeEvent;
 };
