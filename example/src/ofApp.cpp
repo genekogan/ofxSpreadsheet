@@ -32,30 +32,30 @@ void ofApp::setup()
     // add entries
     
     for (int i=0; i<50; i++) {
-        vector<float> entry;
-        entry.push_back(ofRandom(1));
-        entry.push_back(ofRandom(-50, -30));
-        entry.push_back(ofRandom(100, 180));
-        entry.push_back(ofRandom(20, 50));
-        entry.push_back(ofRandom(35, 90));
-        entry.push_back(ofRandom(-100, 100));
-        entry.push_back(ofRandom(-30, 20));
-        entry.push_back(ofRandom(1));
-        entry.push_back(ofRandom(-50, -30));
-        entry.push_back(ofRandom(100, 180));
-        entry.push_back(ofRandom(20, 50));
-        entry.push_back(ofRandom(35, 90));
-        entry.push_back(ofRandom(-100, 100));
-        entry.push_back(ofRandom(-30, 20));
-        entry.push_back(ofRandom(35, 90));
-        entry.push_back(ofRandom(-100, 100));
-        entry.push_back(ofRandom(-30, 20));
+        vector<string> entry;
+        entry.push_back(ofToString(ofRandom(1)));
+        entry.push_back(ofToString(ofRandom(-50, -30)));
+        entry.push_back(ofToString(ofRandom(100, 180)));
+        entry.push_back(ofToString(ofRandom(20, 50)));
+        entry.push_back(ofToString(ofRandom(35, 90)));
+        entry.push_back(ofToString(ofRandom(-100, 100)));
+        entry.push_back(ofToString(ofRandom(-30, 20)));
+        entry.push_back(ofToString(ofRandom(1)));
+        entry.push_back(ofToString(ofRandom(-50, -30)));
+        entry.push_back(ofToString(ofRandom(100, 180)));
+        entry.push_back(ofToString(ofRandom(20, 50)));
+        entry.push_back(ofToString(ofRandom(35, 90)));
+        entry.push_back(ofToString(ofRandom(-100, 100)));
+        entry.push_back(ofToString(ofRandom(-30, 20)));
+        entry.push_back(ofToString(ofRandom(35, 90)));
+        entry.push_back(ofToString(ofRandom(-100, 100)));
+        entry.push_back(ofToString(ofRandom(-30, 20)));
         
         spreadsheet.addEntry(entry);
     }
     
     // you can get the entries and headers from the spreadsheet
-    vector<vector<float> > myEntries = spreadsheet.getEntries();
+    vector<vector<string> > myEntries = spreadsheet.getEntries();
     vector<string> myHeaders = spreadsheet.getHeaders();
     reverse = false;
 }
