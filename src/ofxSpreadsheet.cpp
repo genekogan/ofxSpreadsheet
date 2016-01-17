@@ -123,6 +123,7 @@ void ofxSpreadsheet::draw()
     for (int r = 0; r < numRows; r++) {
         for (int c = 0; c < numCols; c++) {
             float cy = r * cellHeight;
+            float cy1 = (r + 1) * cellHeight;
             float cx = c * cellWidth;
             ofFill();
             ofSetColor(topRow + r == selectedRow ? 210 : 255);
@@ -132,6 +133,15 @@ void ofxSpreadsheet::draw()
             ofDrawRectangle(cx, cy, cellWidth, cellHeight);
             ofSetColor(0);
             ofDrawBitmapString(ofToString(entries[topRow + r][leftCol + c]), cx + 1, cy + cellHeight - 1);
+
+            ofFill();
+            ofSetColor(55);
+            ofDrawRectangle(-20, cy, 20, cellHeight);
+            ofSetColor(110);
+            ofNoFill();
+            ofDrawRectangle(-20, cy, 20, cellHeight);
+            ofSetColor(255);
+            ofDrawBitmapString(ofToString(topRow+ r+1), -20, cy1-3);
         }
     }
     
