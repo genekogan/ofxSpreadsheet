@@ -1,17 +1,25 @@
-example/build/example.build/Debug/example.build/Objects-normal/x86_64/exampleDebug.LinkFileList
-example/build/example.build/Debug/example.build/Objects-normal/x86_64/exampleDebug_dependency_info.dat
-example/build/example.build/Debug/example.build/Objects-normal/x86_64/main.d
-example/build/example.build/Debug/example.build/Objects-normal/x86_64/main.dia
-example/build/example.build/Debug/example.build/Objects-normal/x86_64/main.o
-example/build/example.build/Debug/example.build/Objects-normal/x86_64/ofApp.d
-example/build/example.build/Debug/example.build/Objects-normal/x86_64/ofApp.dia
-example/build/example.build/Debug/example.build/Objects-normal/x86_64/ofApp.o
-example/build/example.build/Debug/example.build/Objects-normal/x86_64/ofxSpreadsheet.d
-example/build/example.build/Debug/example.build/Objects-normal/x86_64/ofxSpreadsheet.dia
-example/build/example.build/Debug/example.build/Objects-normal/x86_64/ofxSpreadsheet.o
-example/build/example.build/Debug/example.build/Script-E4B6FFFD0C3F9AB9008CF71C.sh
-example/build/example.build/Debug/example.build/dgph
-example/build/example.build/Debug/example.build/exampleDebug.hmap
-example/example.xcodeproj/project.xcworkspace/xcuserdata/david.xcuserdatad/UserInterfaceState.xcuserstate
-example/example.xcodeproj/xcuserdata/david.xcuserdatad/xcschemes/xcschememanagement.plist
-Breakpoints_v2.xcbkptlist
+*.app
+
+# Xcode
+#
+# gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
+
+## Build generated
+build/
+DerivedData
+
+## Various settings
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata
+
+## Other
+*.xccheckout
+*.moved-aside
+*.xcuserstate
