@@ -1,13 +1,15 @@
 #include "ofxSpreadsheet.h"
 
-
-ofxSpreadsheet::ofxSpreadsheet() {
+//--------------------------------------------------------------
+ofxSpreadsheet::ofxSpreadsheet()
+{
     cellWidth = 100;
     cellHeight = 18;
 }
-
-void ofxSpreadsheet::setup(int x, int y, int numDisplayRows, int numDisplayCols) {
-
+//--------------------------------------------------------------
+void ofxSpreadsheet::setup(int x, int y, int numDisplayRows, int numDisplayCols)
+{
+    
     this->numDisplayRows = numDisplayRows;
     this->numDisplayCols = numDisplayCols;
     width = numDisplayCols * cellWidth;
@@ -19,7 +21,21 @@ void ofxSpreadsheet::setup(int x, int y, int numDisplayRows, int numDisplayCols)
     selectRow(0);
     setActive(true);
 }
-
+//--------------------------------------------------------------
+void ofxSpreadsheet::sortByCol(int col,bool direction)
+{
+    if (direction) {
+        sort(entries.begin(), entries.end(), [&col](const vector<float> &a, const vector<float> &b){
+            return a[col] > b[col];
+        });
+    }
+    else {
+        sort(entries.begin(), entries.end(), [&col](const vector<float> &a, const vector<float> &b){
+            return a[col] < b[col];
+        });
+    }
+}
+//--------------------------------------------------------------
 void ofxSpreadsheet::setActive(bool active)
 {
     this->active = active;
@@ -38,37 +54,43 @@ void ofxSpreadsheet::setActive(bool active)
         ofRemoveListener(ofEvents().mouseDragged, this, &ofxSpreadsheet::mouseDragged);
     }
 }
-void ofxSpreadsheet::setPosition(int x, int y) {
+//--------------------------------------------------------------
+void ofxSpreadsheet::setPosition(int x, int y)
+{
     this->x = x;
     this->y = y;
 }
-
-void ofxSpreadsheet::setHeaders(vector<string> headers) {
+//--------------------------------------------------------------
+void ofxSpreadsheet::setHeaders(vector<string> headers)
+{
     this->headers = headers;
 }
-
-void ofxSpreadsheet::addEntry(vector<float> entry) {
+//--------------------------------------------------------------
+void ofxSpreadsheet::addEntry(vector<float> entry)
+{
     entries.push_back(entry);
     ofNotifyEvent(changeEvent);
 }
-
-void ofxSpreadsheet::deleteSelectedRow() {
+//--------------------------------------------------------------
+void ofxSpreadsheet::deleteSelectedRow()
+{
     if (entries.size() == 0) return;
     entries.erase(entries.begin() + min((int) entries.size()-1, selectedRow));
     selectRow(min(selectedRow, (int) entries.size()-1));
     ofNotifyEvent(changeEvent);
 }
-
-void ofxSpreadsheet::clearEntries() {
+//--------------------------------------------------------------
+void ofxSpreadsheet::clearEntries()
+{
     entries.clear();
     ofNotifyEvent(changeEvent);
 }
-
+//--------------------------------------------------------------
 void ofxSpreadsheet::draw()
 {
     int numRows = min(numDisplayRows, (int) entries.size() - topRow);
     int numCols = min(numDisplayCols, (int) headers.size() - leftCol);
-
+    
     ofPushStyle();
     ofPushMatrix();
     ofTranslate(x, y);
@@ -78,10 +100,10 @@ void ofxSpreadsheet::draw()
         float cx = c * cellWidth;
         ofFill();
         ofSetColor(55);
-        ofRect(cx, 0, cellWidth, cellHeight);
+        ofDrawRectangle(cx, 0, cellWidth, cellHeight);
         ofSetColor(110);
         ofNoFill();
-        ofRect(cx, 0, cellWidth, cellHeight);
+        ofDrawRectangle(cx, 0, cellWidth, cellHeight);
         ofSetColor(255);
         ofDrawBitmapString(ofToString(headers[leftCol + c]), cx + 1, cellHeight - 1);
     }
@@ -94,10 +116,10 @@ void ofxSpreadsheet::draw()
             float cx = c * cellWidth;
             ofFill();
             ofSetColor(topRow + r == selectedRow ? 210 : 255);
-            ofRect(cx, cy, cellWidth, cellHeight);
+            ofDrawRectangle(cx, cy, cellWidth, cellHeight);
             ofSetColor(170);
             ofNoFill();
-            ofRect(cx, cy, cellWidth, cellHeight);
+            ofDrawRectangle(cx, cy, cellWidth, cellHeight);
             ofSetColor(0);
             ofDrawBitmapString(ofToString(entries[topRow + r][leftCol + c]), cx + 1, cy + cellHeight - 1);
         }
@@ -106,8 +128,9 @@ void ofxSpreadsheet::draw()
     ofPopMatrix();
     ofPopStyle();
 }
-
-void ofxSpreadsheet::keyPressed(ofKeyEventArgs &evt) {
+//--------------------------------------------------------------
+void ofxSpreadsheet::keyPressed(ofKeyEventArgs &evt)
+{
     if (evt.key == OF_KEY_UP) {
         scrollUp();
     }
@@ -127,47 +150,61 @@ void ofxSpreadsheet::keyPressed(ofKeyEventArgs &evt) {
         shift = true;
     }
 }
-
-void ofxSpreadsheet::keyReleased(ofKeyEventArgs &evt) {
+//--------------------------------------------------------------
+void ofxSpreadsheet::keyReleased(ofKeyEventArgs &evt)
+{
     if (evt.key == OF_KEY_SHIFT) {
         shift = false;
     }
 }
-
-void ofxSpreadsheet::mousePressed(ofMouseEventArgs &evt){
+//--------------------------------------------------------------
+void ofxSpreadsheet::mousePressed(ofMouseEventArgs &evt)
+{
     if (ofRectangle(x, y, width, height).inside(evt.x, evt.y)) {
         int idxY = floor((evt.y - y - cellHeight) / cellHeight);
+        int idyX = floor((evt.x - x - cellWidth) / cellWidth)+1;
         selectRow(topRow + idxY);
+        
+        // Left Click : Right Click
+        sortByCol(leftCol+ idyX, evt.button);
     }
 }
-
-void ofxSpreadsheet::mouseDragged(ofMouseEventArgs &evt){
+//--------------------------------------------------------------
+void ofxSpreadsheet::mouseDragged(ofMouseEventArgs &evt)
+{
+    
 }
-
-void ofxSpreadsheet::mouseReleased(ofMouseEventArgs &evt){
+//--------------------------------------------------------------
+void ofxSpreadsheet::mouseReleased(ofMouseEventArgs &evt)
+{
+    
 }
-
-void ofxSpreadsheet::scrollUp() {
+//--------------------------------------------------------------
+void ofxSpreadsheet::scrollUp()
+{
     selectRow(max(0, selectedRow - (shift ? numDisplayRows-1 : 1)));
     if (selectedRow < topRow) {
         setTopRow(selectedRow);
     }
 }
-
-void ofxSpreadsheet::scrollDown() {
+//--------------------------------------------------------------
+void ofxSpreadsheet::scrollDown()
+{
     selectRow(min((int) entries.size()-1, selectedRow + (shift ? numDisplayRows-1: 1)));
     
     if (selectedRow >= topRow + numDisplayRows) {
         setTopRow(topRow + (shift ? numDisplayRows-1: 1));
     }
 }
-
-void ofxSpreadsheet::scrollLeft() {
+//--------------------------------------------------------------
+void ofxSpreadsheet::scrollLeft()
+{
     if (leftCol > 0) {
         setLeftCol(max(0, leftCol - (shift ? numDisplayCols-1 : 1)));
     }
 }
-
-void ofxSpreadsheet::scrollRight() {
+//--------------------------------------------------------------
+void ofxSpreadsheet::scrollRight()
+{
     setLeftCol(min((int)headers.size() - numDisplayCols, leftCol + (shift ? numDisplayRows-1 : 1)));
 }

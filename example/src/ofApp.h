@@ -22,4 +22,5 @@ public:
     void gotMessage(ofMessage msg);
     
     ofxSpreadsheet spreadsheet;
+    bool reverse;
 };

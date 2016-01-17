@@ -14,6 +14,9 @@ public:
     void setActive(bool active);
     bool getActive() {return active;}
 
+    // direction true = descending : false = ascending
+    void sortByCol(int col,bool direction);
+    
     void setHeaders(vector<string> headers);
     void addEntry(vector<float> entry);
     void clearEntries();
@@ -39,6 +42,7 @@ private:
     void setTopRow(int topRow) {this->topRow = topRow;}
     void setLeftCol(int leftCol) {this->leftCol = leftCol;}
     void selectRow(int selectedRow) {this->selectedRow = selectedRow;}
+    void selectCol(int selectedCol) {this->selectedCol = selectedCol;}
     void scrollUp();
     void scrollDown();
     void scrollLeft();
@@ -60,6 +64,7 @@ private:
     int topRow;
     int leftCol;
     int selectedRow;
+    int selectedCol;
     
     vector<string> headers;
     vector<vector<float> > entries;
