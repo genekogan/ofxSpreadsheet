@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "1A53E27D85D76A0A4431130E1DC76F54EED9EC13",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "124CCB9B44A9FE82887AA6F64CCD17FE54B342A7" : 0,
+    "1A53E27D85D76A0A4431130E1DC76F54EED9EC13" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "982394F8-8A38-40AB-8239-009011472132",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "124CCB9B44A9FE82887AA6F64CCD17FE54B342A7" : "ofxCsv\/",
+    "1A53E27D85D76A0A4431130E1DC76F54EED9EC13" : "ofxSpreadsheet\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "example-csv",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "example-csv\/example-csv.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/paulvollmer\/ofxCsv.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "124CCB9B44A9FE82887AA6F64CCD17FE54B342A7"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/DHaylock\/ofxSpreadsheet.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "1A53E27D85D76A0A4431130E1DC76F54EED9EC13"
+    }
+  ]
+}
