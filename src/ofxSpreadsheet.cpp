@@ -27,7 +27,7 @@ void ofxSpreadsheet::sortByCol(int col,bool direction)
     if (direction) {
         sort(entries.begin(), entries.end(), [&col](const vector<string> &a, const vector<string> &b){
             if (std::isdigit(ofToChar(a[col])) && std::isdigit(ofToChar(b[col]))) {
-                return ofToInt(a[col]) > ofToInt(b[col]);
+                return ofToFloat(a[col]) > ofToFloat(b[col]);
             }
             else {
                 return a[col] > b[col];
@@ -37,7 +37,7 @@ void ofxSpreadsheet::sortByCol(int col,bool direction)
     else {
         sort(entries.begin(), entries.end(), [&col](const vector<string> &a, const vector<string> &b){
             if (std::isdigit(ofToChar(a[col])) && std::isdigit(ofToChar(b[col]))) {
-                return ofToInt(a[col]) < ofToInt(b[col]);
+                return ofToFloat(a[col]) < ofToFloat(b[col]);
             }
             else {
                 return a[col] < b[col];
