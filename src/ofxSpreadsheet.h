@@ -14,7 +14,7 @@ public:
     void setActive(bool active);
     bool getActive() {return active;}
 
-    // direction true = descending : false = ascending
+    // direction true = ascending : false = descending
     void sortByCol(int col,bool direction);
     
     void setHeaders(vector<string> headers);
