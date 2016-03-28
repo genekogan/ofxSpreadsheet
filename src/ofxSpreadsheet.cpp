@@ -79,6 +79,22 @@ void ofxSpreadsheet::setHeaders(vector<string> headers)
 void ofxSpreadsheet::addEntry(vector<string> entry)
 {
     entries.push_back(entry);
+    vector<float> entryF;
+    for (auto e : entry) {
+        entryF.push_back(ofToFloat(e));
+    }
+    entriesF.push_back(entryF);
+    ofNotifyEvent(changeEvent);
+}
+//--------------------------------------------------------------
+void ofxSpreadsheet::addEntry(vector<float> entry)
+{
+    entriesF.push_back(entry);
+    vector<string> entryS;
+    for (auto e : entry) {
+        entryS.push_back(ofToString(e));
+    }
+    entries.push_back(entryS);
     ofNotifyEvent(changeEvent);
 }
 //--------------------------------------------------------------
@@ -86,6 +102,7 @@ void ofxSpreadsheet::deleteSelectedRow()
 {
     if (entries.size() == 0) return;
     entries.erase(entries.begin() + min((int) entries.size()-1, selectedRow));
+    entriesF.erase(entriesF.begin() + min((int) entriesF.size()-1, selectedRow));
     selectRow(min(selectedRow, (int) entries.size()-1));
     ofNotifyEvent(changeEvent);
 }
@@ -93,6 +110,7 @@ void ofxSpreadsheet::deleteSelectedRow()
 void ofxSpreadsheet::clearEntries()
 {
     entries.clear();
+    entriesF.clear();
     ofNotifyEvent(changeEvent);
 }
 //--------------------------------------------------------------

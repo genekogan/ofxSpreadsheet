@@ -19,10 +19,13 @@ public:
     
     void setHeaders(vector<string> headers);
     void addEntry(vector<string> entry);
+    void addEntry(vector<float> entry);
+    
     void clearEntries();
     
     int getNumberOfEntries() { return entries.size(); }
-    vector<vector<string> > & getEntries() { return entries; }
+    vector<vector<float> > & getEntries() { return entriesF; }
+    vector<vector<string> > & getEntriesS() { return entries; }
     vector<string> & getHeaders() { return headers; }
     
     void draw();
@@ -68,6 +71,7 @@ private:
     
     vector<string> headers;
     vector<vector<string> > entries;
+    vector<vector<float> > entriesF;
     
     ofEvent<void> changeEvent;
 };
